@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Lavatory Simulator</title>
+    </head>
+    <body style="background-color:lightgrey">
+
+        <script type="text/javascript">
+
+            var Dump_Valve_1 = 0;
+            var Dump_Valve_2 = 0;
+            var Waste_Outlet_Cover = 0;
+            var Waste_Hose = 0;
+            var Waste_Valve = 0;
+            var Charge_Point_Cover_1 = 0;
+            var Charge_Point_Cover_2 = 0;
+            var Charge_Hose_1 = 0;
+            var Charge_Hose_2 = 0;
+            var Lav_Cart_Valve = 0;
+            var Blockage = 0;
+
+            function Ramp_Spill() {
+                var Spill=document.getElementById('Spill_Message');
+                Spill.style.visibility = 'visible';
+            }
+
+            function Charge_Hose_Not_Connected() {
+                var Spill=document.getElementById('Spill_Message');
+                Spill.innerHTML = "<br/>" + "<br/>" + "<br/>" + "Grab the Sponge, there's a spill on the Ramp!" + "<br/>" + "You forgot to connect the Charge Hose" +
+                   "<br/>" +  "before opening the lav cart valve." +"<br/>" +"<br/>" +"<br/>";
+                Spill.style.visibility = 'visible';
+            }
+
+            function Toilet_Spill() {
+                var Spill=document.getElementById('Spill_Message');
+                Spill.innerHTML = "<br/>" + "<br/>" + "<br/>" + "Fetch the Wet Wipes, there's a spill in the Aircraft!" + "<br/>" + "You forgot to open the waste valve." +
+                    "<br/>" +"<br/>" +"<br/>" +"<br/>";
+                Spill.style.visibility = 'visible';
+            }
+
+            function Blockage_Spill() {
+                var Spill=document.getElementById('Spill_Message');
+                Spill.innerHTML = "<br/>" + "<br/>" + "<br/>" + "Grab some napkins, there's a spill in the Aircraft!" + "<br/>" + "There is a blockage in the line." +
+                    "<br/>" +"<br/>" +"<br/>" +"<br/>";
+                Spill.style.visibility = 'visible';
+            }
+
+            function Check_State() {
+                if (document.getElementById('Dump_Handle_1_Rotated').style.visibility=='hidden') {
+                    Dump_Valve_1 = 0;
+                }   else {
+                    Dump_Valve_1 = 1;
+                }
+                if (document.getElementById('Dump_Handle_2_Rotated').style.visibility=='hidden') {
+                    Dump_Valve_2 = 0;
+                }   else {
+                    Dump_Valve_2 = 1;
+                }
+                if (document.getElementById('Open_Waste_Outlet_Cover').style.visibility=='hidden') {
+                    Waste_Outlet_Cover = 0;
+                }   else {
+                    Waste_Outlet_Cover = 1;
+                }
+                if (document.getElementById('Waste_Hose_2').style.visibility=='hidden') {
+                    Waste_Hose = 0;
+                }   else {
+                    Waste_Hose = 1;
+                }
+                if (document.getElementById('Waste_Valve_Handle_Open').style.visibility=='hidden') {
+                    Waste_Valve = 0;
+                }   else {
+                    Waste_Valve = 1;
+                }
+                if (document.getElementById('Charge_Point_Cover_1_Rotated').style.visibility=='hidden') {
+                    Charge_Point_Cover_1 = 0;
+                }   else {
+                    Charge_Point_Cover_1 = 1;
+                }
+                if (document.getElementById('Charge_Point_Cover_2_Rotated').style.visibility=='hidden') {
+                    Charge_Point_Cover_2 = 0;
+                }   else {
+                    Charge_Point_Cover_2 = 1;
+                }
+                if (document.getElementById('Charge_Hose_2').style.visibility=='hidden') {
+                    Charge_Hose_1 = 0;
+                }   else {
+                    Charge_Hose_1 = 1;
+                }
+                if (document.getElementById('Charge_Hose_3').style.visibility=='hidden') {
+                    Charge_Hose_2 = 0;
+                }   else {
+                    Charge_Hose_2 = 1;
+                }
+                if (document.getElementById('Lav_Cart_Off_Button').style.visibility=='hidden') {
+                    Lav_Cart_Valve = 0;
+                }   else {
+                    Lav_Cart_Valve = 1;
+                }
+                if (document.getElementById('Blockage_Off_Button').style.visibility=='hidden') {
+                    Blockage = 0;
+                }   else {
+                    Blockage = 1;
+                }
+
+
+                if ((Waste_Hose == 0) && (Waste_Valve == 1)) {
+                    Ramp_Spill();
+                } else if (Lav_Cart_Valve == 1) {
+                    if ((Charge_Hose_1 == 0) && (Charge_Hose_2 == 0)) {
+                        Charge_Hose_Not_Connected();
+                    } else if ((Waste_Valve == 0) && (((Charge_Hose_1 == 1) && (Dump_Valve_1 == 1)) ||
+                        ((Charge_Hose_2 == 1) && (Dump_Valve_2 == 1)))) {
+                        Toilet_Spill();
+                    } else if ((Blockage == 1) && (((Charge_Hose_1 == 1) && (Dump_Valve_1 == 1)) ||
+                    ((Charge_Hose_2 == 1) && (Dump_Valve_2 == 1)))) {
+                        Blockage_Spill();
+
+                    }
+
+                }
+            }
+
+        </script>
+
+
+        <h1 style="font-family:Helvetica; padding-bottom: 6%; color: cornflowerblue;text-align:center">Lavatory Simulator</h1>
+        <style>
+            .fixed-ratio-resize { /* basic responsive img */
+                max-width: 100%;
+                height: auto;
+                width: auto\9;
+            }
+        </style>
+
+        <div style="position:relative; left:0; top:0;">
+
+            <img class="fixed-ratio-resize" src="Lav_Panel.png" style="position:relative; top:0; left:0; visibility:visible;"/>
+
+            <img width="4%" class="fixed-ratio-resize" src="Dump_Handle.png" id="Dump_Handle_1"
+                 style="position:absolute; top:19.5%; left:19.5%; visibility:visible;"
+                 onclick="document.getElementById('Dump_Handle_1').style.visibility='hidden';
+            document.getElementById('Dump_Handle_1_Rotated').style.visibility='visible';
+            Check_State()">
+            <img width="4%" class="fixed-ratio-resize" src="Dump_Handle.png" id="Dump_Handle_2"
+                 style="position:absolute; top:19.5%; left:43%; visibility:visible;"
+                 onclick="document.getElementById('Dump_Handle_2').style.visibility='hidden';
+            document.getElementById('Dump_Handle_2_Rotated').style.visibility='visible';
+            Check_State()">
+
+            <img width="14%" class="fixed-ratio-resize" src="Dump_Handle_90deg.png" id="Dump_Handle_1_Rotated"
+                 style="position:absolute; top:27.5%; left:14.5%; visibility:hidden;"
+                 onclick="document.getElementById('Dump_Handle_1_Rotated').style.visibility='hidden';
+            document.getElementById('Dump_Handle_1').style.visibility='visible';
+            Check_State()">
+            <img width="14%" class="fixed-ratio-resize" src="Dump_Handle_90deg.png" id="Dump_Handle_2_Rotated"
+                 style="position:absolute; top:27.5%; left:38%; visibility:hidden;"
+                 onclick="document.getElementById('Dump_Handle_2_Rotated').style.visibility='hidden';
+            document.getElementById('Dump_Handle_2').style.visibility='visible';
+            Check_State()">
+
+            <img width="30%" class="fixed-ratio-resize" src="Waste_Outlet_Cover.png" id="Waste_Outlet_Cover"
+                 style="position:absolute; top:18%; left:60%; visibility:visible;"
+                 onclick="document.getElementById('Waste_Outlet_Cover').style.visibility='hidden';
+            document.getElementById('Open_Waste_Outlet_Cover').style.visibility='visible';
+            document.getElementById('Waste_Hose').style.visibility='visible';
+            Check_State()">
+
+            <img width="30%" class="fixed-ratio-resize" src="Waste_Outlet_Cover_Open.png" id="Open_Waste_Outlet_Cover"
+                 style="position:absolute; top:-22%; left:60%; visibility:hidden;"
+                 onclick="document.getElementById('Waste_Outlet_Cover').style.visibility='visible';
+            document.getElementById('Open_Waste_Outlet_Cover').style.visibility='hidden';
+            document.getElementById('Waste_Hose_2').style.visibility='hidden';
+            document.getElementById('Waste_Hose').style.visibility='hidden';
+            Check_State()">
+
+            <img width="50%" class="fixed-ratio-resize" src="Waste_Hose.png" id="Waste_Hose"
+                 style="position:absolute; top:45%; left:85%; visibility:hidden;" onclick="
+            document.getElementById('Waste_Hose_2').style.visibility='visible';
+            document.getElementById('Waste_Hose').style.visibility='hidden';
+            Check_State()">
+            <img width="50%" class="fixed-ratio-resize" src="Waste_Hose.png" id="Waste_Hose_2"
+                 style="position:absolute; top:23%; left:61%; visibility:hidden;" onclick="
+            document.getElementById('Waste_Hose_2').style.visibility='hidden';
+            document.getElementById('Waste_Hose').style.visibility='visible';
+            Check_State()">
+
+            <img width="5%" class="fixed-ratio-resize" src="Waste_Valve_Handle.png" id="Waste_Valve_Handle"
+                 style="position:absolute; top:28.5%; left:56.5%; visibility:visible;"
+                 onclick="document.getElementById('Waste_Valve_Handle').style.visibility='hidden';
+            document.getElementById('Waste_Valve_Handle_Open').style.visibility='visible';
+            Check_State()">
+            <img width="10%" class="fixed-ratio-resize" src="Waste_Valve_Handle_Open.png" id="Waste_Valve_Handle_Open"
+                 style="position:absolute; top:34%; left:53.05%; visibility:hidden;"
+                 onclick="document.getElementById('Waste_Valve_Handle_Open').style.visibility='hidden';
+            document.getElementById('Waste_Valve_Handle').style.visibility='visible';
+            Check_State()">
+
+            <img width="30%" class="fixed-ratio-resize" src="Charge_Point_Cover.png" id="Charge_Point_Cover_1"
+                 style="position:absolute; top:58%; left:14%; visibility:visible;"
+                 onclick="document.getElementById('Charge_Point_Cover_1').style.visibility='hidden';
+            document.getElementById('Charge_Point_Cover_1_Rotated').style.visibility='visible';
+            document.getElementById('Charge_Hose').style.visibility='visible';
+            Check_State()">
+            <img width="30%" class="fixed-ratio-resize" src="Charge_Point_Cover.png" id="Charge_Point_Cover_2"
+                 style="position:absolute; top:58%; left:38%; visibility:visible;"
+                 onclick="document.getElementById('Charge_Point_Cover_2').style.visibility='hidden';
+            document.getElementById('Charge_Point_Cover_2_Rotated').style.visibility='visible';
+            document.getElementById('Charge_Hose').style.visibility='visible';
+            Check_State()">
+
+            <img width="40%" class="fixed-ratio-resize" src="Charge_Point_Cover_90deg.png" id="Charge_Point_Cover_1_Rotated"
+                 style="position:absolute; top:83%; left:14%; visibility:hidden;"
+                 onclick="document.getElementById('Charge_Point_Cover_1').style.visibility='visible';
+            document.getElementById('Charge_Point_Cover_1_Rotated').style.visibility='hidden';
+            document.getElementById('Charge_Hose').style.visibility='hidden';
+            document.getElementById('RH_Toilet_Button').style.visibility='hidden';
+            Check_State()">
+            <img width="40%" class="fixed-ratio-resize" src="Charge_Point_Cover_90deg.png" id="Charge_Point_Cover_2_Rotated"
+                 style="position:absolute; top:83%; left:38%; visibility:hidden;"
+                 onclick="document.getElementById('Charge_Point_Cover_2').style.visibility='visible';
+            document.getElementById('Charge_Point_Cover_2_Rotated').style.visibility='hidden';
+            document.getElementById('Charge_Hose').style.visibility='hidden';
+            document.getElementById('LH_Toilet_Button').style.visibility='hidden';
+            Check_State()">
+
+            <button class="fixed-ratio-resize" style="color: cornflowerblue; border-style: outset;
+            background-color: wheat; font-family: Helvetica; font-size: small ;position:absolute; top:85%; left:14.5%;
+            visibility:hidden" id="RH_Toilet_Button"
+                    onclick="document.getElementById('RH_Toilet_Button').style.visibility='hidden';
+            document.getElementById('LH_Toilet_Button').style.visibility='hidden';
+            document.getElementById('Charge_Hose').style.visibility='hidden';
+            document.getElementById('Charge_Hose_2').style.visibility='visible';
+            Check_State()">Connect to RH Toilet</button>
+            <button class="fixed-ratio-resize" style="color: cornflowerblue; border-style: outset;
+            background-color: wheat; font-family: Helvetica; font-size: small ;position:absolute; top:85%; left:38.5%;
+            visibility:hidden" id="LH_Toilet_Button"
+                    onclick="document.getElementById('LH_Toilet_Button').style.visibility='hidden';
+            document.getElementById('RH_Toilet_Button').style.visibility='hidden';
+            document.getElementById('Charge_Hose').style.visibility='hidden';
+            document.getElementById('Charge_Hose_3').style.visibility='visible';
+            Check_State()">Connect to LH Toilet</button>
+
+            <img width="30%" class="fixed-ratio-resize" src="Charge_Hose.png" id="Charge_Hose"
+                 style="position:absolute; top:83%; left:55%; visibility:hidden;"
+                 onclick="if (document.getElementById('Charge_Point_Cover_1').style.visibility == 'hidden') {
+                     document.getElementById('RH_Toilet_Button').style.visibility='visible'
+                 }; if (document.getElementById('Charge_Point_Cover_2').style.visibility == 'hidden') {
+                     document.getElementById('LH_Toilet_Button').style.visibility='visible'
+                 }; Check_State()">
+            <img width="30%" class="fixed-ratio-resize" src="Charge_Hose.png" id="Charge_Hose_2"
+                 style="position:absolute; top:55%; left:13%; visibility:hidden;"
+                 onclick="document.getElementById('Charge_Hose_2').style.visibility='hidden';
+            document.getElementById('Charge_Hose').style.visibility='visible';
+            Check_State()">
+            <img width="30%" class="fixed-ratio-resize" src="Charge_Hose.png" id="Charge_Hose_3"
+                 style="position:absolute; top:55%; left:37%; visibility:hidden;"
+                 onclick="document.getElementById('Charge_Hose_3').style.visibility='hidden';
+            document.getElementById('Charge_Hose').style.visibility='visible';
+            Check_State()">
+
+            <button class="fixed-ratio-resize" style="color: darkblue; border-style: outset;
+            background-color: wheat; font-family: Helvetica; font-size: small;position:absolute; top:-15%; left:10%;
+            visibility:visible" id="Lav_Cart_On_Button"
+                    onclick="document.getElementById('Lav_Cart_Off_Button').style.visibility='visible';
+                    document.getElementById('Lav_Cart_On_Button').style.visibility='hidden';
+                    Check_State()">Open <br/> Lav Cart <br/> Valve</button>
+            <button class="fixed-ratio-resize" style="color: darkred; border-style: outset;
+            background-color: wheat; font-family: Helvetica; font-size: small;position:absolute; top:-15%; left:10%;
+            visibility:hidden" id="Lav_Cart_Off_Button"
+                    onclick="document.getElementById('Lav_Cart_On_Button').style.visibility='visible';
+                    document.getElementById('Lav_Cart_Off_Button').style.visibility='hidden';
+                    Check_State()">Close <br/> Lav Cart <br/> Valve</button>
+
+            <button class="fixed-ratio-resize" style="color: darkgreen; border-style: outset;
+            background-color: wheat; font-family: Helvetica; font-size: small;position:absolute; top:-14%; left:30%;
+            visibility:visible" id="Blockage_On_Button"
+                    onclick="document.getElementById('Blockage_Off_Button').style.visibility='visible';
+                    document.getElementById('Blockage_On_Button').style.visibility='hidden';
+                    Check_State()">Create <br/> Blockage</button>
+            <button class="fixed-ratio-resize" style="color: darkred; border-style: outset;
+            background-color: wheat; font-family: Helvetica; font-size: small;position:absolute; top:-14%; left:30%;
+            visibility:hidden" id="Blockage_Off_Button"
+                    onclick="document.getElementById('Blockage_On_Button').style.visibility='visible';
+                    document.getElementById('Blockage_Off_Button').style.visibility='hidden';
+                    Check_State()">Remove <br/> Blockage</button>
+
+            <p class="fixed-ratio-resize" id="Spill_Message" style="background-color:darkgrey;
+            border-color:gray; border:outset; padding:10%; text-align:center; font-family:Helvetica;
+            font-size:x-large; color:cornflowerblue; position: absolute; top: 5%; left: 10%; right: 10%;
+            visibility:hidden" onclick="document.getElementById('Spill_Message').style.visibility='hidden';
+            location.reload(true)">
+            <br/><br/><br/><b>Get the mop, there's a spill on the ramp!<br/>
+                The dump valve is open with no hose attached.</b>
+            <br/><br/><br/><br/>
+            </p>
+        </div>
+
+
+
+    </body>
+</html>
